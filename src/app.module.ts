@@ -5,6 +5,7 @@ import configuration from './config/configuration';
 import { CommonModule } from './modules/common/common.module';
 import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
+import {CategoryModule} from "./modules/category/category.module";
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { AuthModule } from './modules/auth/auth.module';
     CommonModule,
     AuthModule,
     UsersModule,
+    CategoryModule,
   ],
   controllers: [],
   providers: [],
