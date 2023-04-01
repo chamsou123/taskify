@@ -8,13 +8,14 @@ import { CommonModule } from './modules/common/common.module';
 import { UsersModule } from './modules/users/users.module';
 
 @Module({
-  imports: [],
+  imports: [
     ConfigModule.forRoot({
       load: [configuration],
       isGlobal: true,
     }),
     CommonModule,
     UsersModule,
+  ]
   controllers: [AppController],
   providers: [AppService],
 })
