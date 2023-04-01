@@ -9,6 +9,7 @@ import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
       driver: ApolloDriver,
       autoSchemaFile: true,
       playground: false,
+      introspection: true,
       // @ts-ignore
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
     }),
