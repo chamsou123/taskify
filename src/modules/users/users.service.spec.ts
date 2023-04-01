@@ -4,7 +4,12 @@ import { Repository } from 'typeorm';
 import { ConflictException } from '@nestjs/common';
 
 import { User } from './entities';
-import { CreateUserDto, FilterUserDto, FilterUsersDto } from './dto';
+import {
+  CreateUserDto,
+  FilterUserDto,
+  FilterUsersDto,
+  UpdateUserDto,
+} from './dto';
 import { UsersService } from './users.service';
 
 describe('UsersService', () => {
@@ -106,10 +111,10 @@ describe('UsersService', () => {
   });
 
   describe('update', () => {
-    const updateUserInput = {
+    const updateUserInput: UpdateUserDto = {
       id: 1,
-      name: 'Jane Doe',
-      email: 'jane.doe@example.com',
+      firstName: 'Jane',
+      lastName: 'Doe',
     };
     const existingUser = new User();
     const updatedUser = new User();
@@ -119,8 +124,8 @@ describe('UsersService', () => {
       mockUserRepository.save.mockReturnValue(updatedUser);
       Object.assign(existingUser, {
         id: 1,
-        name: 'John Doe',
-        email: 'john.doe@example.com',
+        firstName: 'Jane',
+        lastName: 'Doe',
       });
     });
 
@@ -129,8 +134,9 @@ describe('UsersService', () => {
       expect(mockUserRepository.findOneBy).toHaveBeenCalledWith({ id: 1 });
       expect(mockUserRepository.save).toHaveBeenCalledWith(
         Object.assign(existingUser, {
-          name: 'Jane Doe',
-          email: 'jane.doe@example.com',
+          id: 1,
+          firstName: 'Jane',
+          lastName: 'Doe',
         }),
       );
       expect(result).toEqual(updatedUser);
