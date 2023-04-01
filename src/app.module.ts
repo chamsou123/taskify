@@ -15,7 +15,7 @@ import { UsersModule } from './modules/users/users.module';
     }),
     CommonModule,
     UsersModule,
-  ]
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
