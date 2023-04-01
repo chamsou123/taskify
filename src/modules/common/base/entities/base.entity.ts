@@ -1,6 +1,7 @@
 import { Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
-import { Field } from '@nestjs/graphql';
+import { Field, ObjectType } from '@nestjs/graphql';
 
+@ObjectType()
 @Entity()
 export abstract class BaseEntity {
   @Field(() => Number)
