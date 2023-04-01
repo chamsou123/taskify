@@ -8,6 +8,7 @@ export const typeOrmConfig: TypeOrmModuleAsyncOptions = {
   useFactory: async (
     configService: ConfigService,
   ): Promise<TypeOrmModuleOptions> => {
+    console.log(process.env.NODE_ENV === 'production');
     return {
       type: 'postgres',
       host: configService.get<string>('database.host'),
@@ -15,6 +16,7 @@ export const typeOrmConfig: TypeOrmModuleAsyncOptions = {
       username: configService.get<string>('database.username'),
       password: configService.get<string>('database.password'),
       database: configService.get<string>('database.name'),
+      ssl: process.env.NODE_ENV === 'production',
       autoLoadEntities: true,
       synchronize: true,
       logging: false,
