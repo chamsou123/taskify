@@ -5,6 +5,7 @@ import configuration from './config/configuration';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CommonModule } from './modules/common/common.module';
+import { UsersModule } from './modules/users/users.module';
 
 @Module({
   imports: [],
@@ -13,6 +14,7 @@ import { CommonModule } from './modules/common/common.module';
       isGlobal: true,
     }),
     CommonModule,
+    UsersModule,
   controllers: [AppController],
   providers: [AppService],
 })
