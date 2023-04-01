@@ -7,7 +7,7 @@ import { FilterCategoryDto } from '../../category/dto';
 
 @InputType()
 export class FilterTodoDto extends PartialType(
-  OmitType(CreateTodoDto, ['user', 'category']),
+  OmitType(CreateTodoDto, ['user', 'category', 'name', 'content']),
 ) {
   @Field(() => TodoStatusEnum, { nullable: true })
   status: TodoStatusEnum;
