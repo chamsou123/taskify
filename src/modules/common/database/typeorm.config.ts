@@ -8,7 +8,6 @@ export const typeOrmConfig: TypeOrmModuleAsyncOptions = {
   useFactory: async (
     configService: ConfigService,
   ): Promise<TypeOrmModuleOptions> => {
-    console.log(process.env.NODE_ENV === 'production');
     return {
       type: 'postgres',
       host: configService.get<string>('database.host'),
