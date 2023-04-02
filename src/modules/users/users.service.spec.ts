@@ -52,15 +52,24 @@ describe('UsersService', () => {
     const user = new User();
 
     beforeEach(() => {
+      mockUserRepository.findOneBy.mockReturnValue(createUserInput);
       mockUserRepository.create.mockReturnValue(user);
       mockUserRepository.save.mockReturnValue(user);
     });
 
     it('should create and return a new user', async () => {
+      // @ts-ignore
+      jest.spyOn(service, 'validateUser').mockReturnValue(true);
       const result = await service.create(createUserInput);
       expect(mockUserRepository.create).toHaveBeenCalledWith(createUserInput);
       expect(mockUserRepository.save).toHaveBeenCalledWith(user);
       expect(result).toEqual(user);
+    });
+
+    it('should throw a conflict error because user exist', async () => {
+      await expect(
+        async () => await service.create(createUserInput),
+      ).rejects.toThrow();
     });
   });
 
