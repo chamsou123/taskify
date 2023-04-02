@@ -66,8 +66,8 @@ export class TodoService {
   }
 
   async delete(id: number): Promise<boolean> {
-    const todo = await this.todo(id);
-    await this.todoRepository.softDelete(todo.id);
+    await this.todo(id);
+    await this.todoRepository.softDelete(id);
     return true;
   }
 }
