@@ -24,9 +24,9 @@ export class CategoryService {
     });
   }
 
-  async category(filterCategoryInput?: FilterCategoryDto): Promise<Category> {
+  async category(id: number): Promise<Category> {
     const category = await this.categoryRepository.findOneBy({
-      ...filterCategoryInput,
+      id,
     });
 
     if (!category) {
@@ -41,7 +41,7 @@ export class CategoryService {
     updateCategoryInput: UpdateCategoryDto,
   ): Promise<Category> {
     await this.categoryRepository.update(id, updateCategoryInput);
-    return this.category({ id });
+    return this.category(id);
   }
 
   async delete(id: number): Promise<void> {

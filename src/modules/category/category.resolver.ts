@@ -17,10 +17,10 @@ export class CategoryResolver {
 
   @Query(() => Category, { name: 'category' })
   async category(
-    @Args('filterCategoryInput', { nullable: true })
-    filterCategoryInput?: FilterCategoryDto,
+    @Args('id', { nullable: true })
+    id: number,
   ): Promise<Category> {
-    return this.categoryService.category(filterCategoryInput);
+    return this.categoryService.category(id);
   }
 
   @Mutation(() => Category, { name: 'createCategory' })
