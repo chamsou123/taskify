@@ -13,7 +13,7 @@ export class UsersResolver {
   @UseGuards(JwtAuthGuard)
   @Query(() => User, {
     name: 'user',
-    description: 'Return User',
+    description: 'Return a User based on its id',
   })
   async user(@Args('id') id: number): Promise<User> {
     return this.usersService.user(id);
@@ -22,7 +22,7 @@ export class UsersResolver {
   @UseGuards(JwtAuthGuard)
   @Query(() => [User], {
     name: 'users',
-    description: 'Return Users',
+    description: 'Return Users list based on filters',
   })
   async users(
     @Args('filterUsersInput', { nullable: true })
@@ -34,7 +34,7 @@ export class UsersResolver {
   @UseGuards(JwtAuthGuard)
   @Mutation(() => User, {
     name: 'updateUser',
-    description: 'create a new User',
+    description: 'Create a new User',
   })
   async update(
     @Args('updateUserInput') updateUserInput: UpdateUserDto,
@@ -45,7 +45,7 @@ export class UsersResolver {
   @UseGuards(JwtAuthGuard)
   @Mutation(() => User, {
     name: 'blockUser',
-    description: 'block a user',
+    description: 'Block a user based on its id',
   })
   async block(@Args('id') id: number): Promise<User> {
     return await this.usersService.blockUser(id);
