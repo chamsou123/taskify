@@ -10,11 +10,11 @@ export class FilterTodoDto extends PartialType(
   OmitType(CreateTodoDto, ['user', 'category', 'name', 'content']),
 ) {
   @Field(() => TodoStatusEnum, { nullable: true })
-  status: TodoStatusEnum;
+  status?: TodoStatusEnum;
 
   @Field(() => FilterUserDto, { nullable: true })
-  user: FilterUserDto;
+  user?: FilterUserDto;
 
   @Field(() => FilterCategoryDto, { nullable: true })
-  category: FilterCategoryDto;
+  category?: FilterCategoryDto;
 }
