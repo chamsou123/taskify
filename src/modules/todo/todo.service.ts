@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 import { Todo } from './entities';
 import { CreateTodoDto, FilterTodoDto, UpdateTodoDto } from './dto';
+import { TODO_NOT_FOUND } from '../../errors';
 
 @Injectable()
 export class TodoService {
@@ -39,7 +40,7 @@ export class TodoService {
     });
 
     if (!todo) {
-      throw new NotFoundException();
+      throw new NotFoundException(TODO_NOT_FOUND);
     }
 
     return todo;

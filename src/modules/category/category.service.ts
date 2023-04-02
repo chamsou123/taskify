@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 import { Category } from './entities';
 import { CreateCategoryDto, FilterCategoryDto, UpdateCategoryDto } from './dto';
+import { CATEGORY_NOT_FOUND } from '../../errors';
 
 @Injectable()
 export class CategoryService {
@@ -30,7 +31,7 @@ export class CategoryService {
     });
 
     if (!category) {
-      throw new NotFoundException('Category Not Found');
+      throw new NotFoundException(CATEGORY_NOT_FOUND);
     }
 
     return category;
