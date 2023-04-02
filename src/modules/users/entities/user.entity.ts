@@ -20,7 +20,7 @@ export class User extends BaseEntity implements SoftDeletable {
   @Index({ unique: true })
   email: string;
 
-  @Column({ name: 'password', select: false })
+  @Column({ name: 'password' })
   password: string;
 
   @Field(() => Boolean)
