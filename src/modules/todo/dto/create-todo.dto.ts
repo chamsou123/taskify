@@ -1,8 +1,6 @@
 import { Field, InputType } from '@nestjs/graphql';
 
 import { TodoPriorityEnum } from '../enums';
-import { Category } from '../../category/entities';
-import { User } from '../../users/entities';
 
 @InputType()
 export class CreateTodoDto {
@@ -13,10 +11,10 @@ export class CreateTodoDto {
   content: string;
 
   @Field(() => Number)
-  user: User;
+  user: number;
 
   @Field(() => Number)
-  category: Category;
+  category: number;
 
   @Field(() => TodoPriorityEnum)
   priority: TodoPriorityEnum;

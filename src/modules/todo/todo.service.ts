@@ -15,8 +15,12 @@ export class TodoService {
     const { user, category, ...data } = createTodoInput;
 
     const todo = await this.todoRepository.create({
-      user: user,
-      category: category,
+      user: {
+        id: user,
+      },
+      category: {
+        id: category,
+      },
       ...data,
     });
 
