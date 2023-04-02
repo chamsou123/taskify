@@ -2,15 +2,20 @@ import { ConflictException, Injectable } from '@nestjs/common';
 
 import { Validator } from './interfaces';
 import { CreateUserDto } from '../dto';
-import { UsersService } from '../users.service';
+import { Repository } from 'typeorm';
+import { User } from '../entities';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class EmailValidator implements Validator {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    @InjectRepository(User) private readonly userRepository: Repository<User>,
+  ) {}
+
   async validate(input: CreateUserDto) {
     const { email } = input;
 
-    const existingUser = await this.usersService.user({ email });
+    const existingUser = await this.userRepository.findOneBy({ email });
 
     if (existingUser) {
       throw new ConflictException('User with email already registered');
