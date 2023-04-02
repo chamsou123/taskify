@@ -47,7 +47,7 @@ describe('UsersResolver', () => {
       };
       jest.spyOn(service, 'user').mockResolvedValue(expectedUser);
 
-      const result = await resolver.user({ email: 'john.doe@example.com' });
+      const result = await resolver.user(1);
 
       expect(result).toBe(expectedUser);
     });

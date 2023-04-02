@@ -3,12 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { User } from './entities';
-import {
-  CreateUserDto,
-  FilterUserDto,
-  FilterUsersDto,
-  UpdateUserDto,
-} from './dto';
+import { CreateUserDto, FilterUsersDto, UpdateUserDto } from './dto';
 import { UserInputValidator } from './validators/user-input.validator';
 import { EmailValidator } from './validators/email.validator';
 import { USER_NOT_FOUND } from '../../errors';
@@ -25,8 +20,18 @@ export class UsersService {
     return await this.userRepository.save(user);
   }
 
-  async user(filterUserInput: FilterUserDto) {
-    const user = await this.userRepository.findOneBy(filterUserInput);
+  async user(id: number) {
+    const user = await this.userRepository.findOneBy({ id });
+
+    if (!user) {
+      throw new NotFoundException(USER_NOT_FOUND);
+    }
+
+    return user;
+  }
+
+  async userByEmail(email: string) {
+    const user = await this.userRepository.findOneBy({ email });
 
     if (!user) {
       throw new NotFoundException(USER_NOT_FOUND);
@@ -42,7 +47,7 @@ export class UsersService {
   async update(updateUserInput: UpdateUserDto): Promise<User> {
     const { id, ...data } = updateUserInput;
 
-    const user = await this.user({ id });
+    const user = await this.user(id);
 
     const updatedUser = Object.assign(user, data);
 
@@ -50,13 +55,15 @@ export class UsersService {
   }
 
   async blockUser(id: number): Promise<User> {
-    const user = await this.user({ id });
+    const user = await this.user(id);
     user.isActive = false;
     return await this.userRepository.save(user);
   }
 
   async validateUser(createUserInput: CreateUserDto): Promise<void> {
-    const validator = new UserInputValidator([new EmailValidator(this)]);
+    const validator = new UserInputValidator([
+      new EmailValidator(this.userRepository),
+    ]);
     return validator.validate(createUserInput);
   }
 }

@@ -4,12 +4,7 @@ import { Repository } from 'typeorm';
 import { ConflictException } from '@nestjs/common';
 
 import { User } from './entities';
-import {
-  CreateUserDto,
-  FilterUserDto,
-  FilterUsersDto,
-  UpdateUserDto,
-} from './dto';
+import { CreateUserDto, FilterUsersDto, UpdateUserDto } from './dto';
 import { UsersService } from './users.service';
 
 describe('UsersService', () => {
@@ -74,9 +69,6 @@ describe('UsersService', () => {
   });
 
   describe('user', () => {
-    const filterUserInput: FilterUserDto = {
-      id: 1,
-    };
     const user = new User();
 
     beforeEach(() => {
@@ -84,21 +76,17 @@ describe('UsersService', () => {
     });
 
     it('should return a user if found', async () => {
-      const result = await service.user(filterUserInput);
-      expect(mockUserRepository.findOneBy).toHaveBeenCalledWith(
-        filterUserInput,
-      );
+      const result = await service.user(1);
+      expect(mockUserRepository.findOneBy).toHaveBeenCalledWith({ id: 1 });
       expect(result).toEqual(user);
     });
 
     it('should throw a NotFoundException if user is not found', async () => {
       mockUserRepository.findOneBy.mockReturnValue(null);
-      await expect(service.user(filterUserInput)).rejects.toThrowError(
+      await expect(service.user(1)).rejects.toThrowError(
         '404001: USER NOT FOUND',
       );
-      expect(mockUserRepository.findOneBy).toHaveBeenCalledWith(
-        filterUserInput,
-      );
+      expect(mockUserRepository.findOneBy).toHaveBeenCalledWith({ id: 1 });
     });
   });
 
@@ -189,18 +177,9 @@ describe('UsersService', () => {
     };
 
     it('should throw a ConflictException if a one of the validators fail', async () => {
-      const moduleRef = await Test.createTestingModule({
-        providers: [
-          UsersService,
-          {
-            provide: getRepositoryToken(User),
-            useValue: mockUserRepository,
-          },
-        ],
-      }).compile();
-
-      const service = moduleRef.get<UsersService>(UsersService);
-      jest.spyOn(service, 'user').mockResolvedValue(mockExistingUser);
+      jest
+        .spyOn(mockUserRepository, 'findOneBy')
+        .mockResolvedValue(mockExistingUser);
 
       await expect(service.validateUser(createUserInput)).rejects.toThrow(
         ConflictException,
