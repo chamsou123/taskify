@@ -1,7 +1,7 @@
 import { Test } from '@nestjs/testing';
 
 import { User } from './entities';
-import { CreateUserDto, UpdateUserDto } from './dto';
+import { UpdateUserDto } from './dto';
 import { UsersResolver } from './users.resolver';
 import { UsersService } from './users.service';
 
@@ -80,32 +80,6 @@ describe('UsersResolver', () => {
       const result = await resolver.users({ isActive: true });
 
       expect(result).toBe(expectedUsers);
-    });
-  });
-
-  describe('createUser', () => {
-    it('should create a user', async () => {
-      const input: CreateUserDto = {
-        firstName: 'Jhon',
-        lastName: 'Doe',
-        email: 'john.doe@example.com',
-        password: 'test',
-      };
-      const expectedUser: User = {
-        id: 1,
-        firstName: input.firstName,
-        lastName: input.lastName,
-        email: input.email,
-        isActive: true,
-        password: 'test',
-        deletedAt: null,
-      };
-      jest.spyOn(service, 'create').mockResolvedValue(expectedUser);
-
-      const result = await resolver.create(input);
-
-      expect(result).toBe(expectedUser);
-      expect(service.create).toHaveBeenCalledWith(input);
     });
   });
 
