@@ -1,25 +1,26 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { Category } from './entities';
 import { CategoryService } from './category.service';
-import { CreateCategoryDto, UpdateCategoryDto } from './dto';
+import { CreateCategoryDto, FilterCategoryDto, UpdateCategoryDto } from './dto';
 
 @Resolver(() => Category)
 export class CategoryResolver {
   constructor(private readonly categoryService: CategoryService) {}
 
   @Query(() => [Category], { name: 'categories' })
-  async categories(): Promise<Category[]> {
-    return this.categoryService.categories();
+  async categories(
+    @Args('filterCategoryInput', { nullable: true })
+    filterCategoryInput?: FilterCategoryDto,
+  ): Promise<Category[]> {
+    return this.categoryService.categories(filterCategoryInput);
   }
 
   @Query(() => Category, { name: 'category' })
-  async category(@Args('id') id: number): Promise<Category> {
-    return this.categoryService.category(id);
-  }
-
-  @Query(() => Category, { name: 'categoryByName' })
-  async categoryByName(@Args('name') name: string): Promise<Category> {
-    return this.categoryService.categoryByName(name);
+  async category(
+    @Args('filterCategoryInput', { nullable: true })
+    filterCategoryInput?: FilterCategoryDto,
+  ): Promise<Category> {
+    return this.categoryService.category(filterCategoryInput);
   }
 
   @Mutation(() => Category, { name: 'createCategory' })
