@@ -3,7 +3,7 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { Todo } from './entities';
-import { CreateTodoDto, FilterTodoDto } from './dto';
+import { CreateTodoDto, FilterTodoDto, UpdateTodoDto } from './dto';
 
 @Injectable()
 export class TodoService {
@@ -49,5 +49,21 @@ export class TodoService {
         user: true,
       },
     });
+  }
+
+  async update(updateTodoInput: UpdateTodoDto): Promise<Todo> {
+    const { id, ...data } = updateTodoInput;
+
+    const todo = await this.todo(id);
+
+    const updatedTodo = Object.assign(todo, data);
+
+    return await this.todoRepository.save(updatedTodo);
+  }
+
+  async delete(id: number): Promise<boolean> {
+    const todo = await this.todo(id);
+    await this.todoRepository.softDelete(todo.id);
+    return true;
   }
 }
