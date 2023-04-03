@@ -5,6 +5,7 @@ import { Todo } from './entities';
 import { CreateTodoDto, FilterTodoDto, UpdateTodoDto } from './dto';
 import { TodoService } from './todo.service';
 import { JwtAuthGuard } from '../auth/guards';
+import { CurrentUser } from '../auth/decorators';
 
 @Resolver()
 export class TodoResolver {
@@ -16,6 +17,15 @@ export class TodoResolver {
     @Args('filterTodoInput', { nullable: true }) filterTodoInput: FilterTodoDto,
   ): Promise<Todo[]> {
     return await this.todoService.todos(filterTodoInput);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Query(() => [Todo], { name: 'userTodos' })
+  async userTodos(
+    @CurrentUser() user,
+    @Args('filterTodoInput', { nullable: true }) filterTodoInput: FilterTodoDto,
+  ): Promise<Todo[]> {
+    return await this.todoService.userTodos(user.sub, filterTodoInput);
   }
 
   @UseGuards(JwtAuthGuard)

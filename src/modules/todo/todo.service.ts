@@ -73,6 +73,24 @@ export class TodoService {
   }
 
   /**
+   * Retrieves Todo of a specific user.
+   * @param userId {number} - The ID of the user which own the Todo.
+   * @param filterTodoInput {FilterTodoDto} - The filter criteria for the Todo records to retrieve.
+   * @returns {Promise<Todo[]>} - The retrieved Todo records.
+   */
+  async userTodos(
+    userId: number,
+    filterTodoInput: Omit<FilterTodoDto, 'user'>,
+  ): Promise<Todo[]> {
+    return this.todos({
+      user: {
+        id: userId,
+      },
+      ...filterTodoInput,
+    });
+  }
+
+  /**
    * Updates a single Todo record by ID.
    * @param  updateTodoInput {UpdateTodoDto} - The input data for updating a Todo record.
    * @returns {Promise<Todo>} - The updated Todo record.
