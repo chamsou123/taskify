@@ -2,7 +2,7 @@ import { Field, InputType, OmitType, PartialType } from '@nestjs/graphql';
 
 import { CreateTodoDto } from './create-todo.dto';
 import { TodoStatusEnum } from '../enums';
-import { IsEnum, IsNumber } from 'class-validator';
+import { IsEnum, IsNumber, IsOptional } from 'class-validator';
 
 @InputType()
 export class UpdateTodoDto extends PartialType(
@@ -14,5 +14,6 @@ export class UpdateTodoDto extends PartialType(
 
   @Field(() => TodoStatusEnum, { nullable: true })
   @IsEnum(TodoStatusEnum)
-  status: TodoStatusEnum;
+  @IsOptional()
+  status?: TodoStatusEnum;
 }
