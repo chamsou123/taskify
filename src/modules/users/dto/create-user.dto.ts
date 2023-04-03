@@ -1,5 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 @InputType()
 export class CreateUserDto {
@@ -23,8 +23,7 @@ export class CreateUserDto {
   @IsNotEmpty()
   password: string;
 
-  @Field(() => Boolean)
+  @Field(() => Boolean, { nullable: true })
   @IsOptional()
-  @IsNumber()
   isActive?: boolean;
 }
