@@ -62,6 +62,7 @@ export class AuthService {
     const access = await this.generateAccessToken({
       id: user.id,
       email: user.email,
+      isActive: user.isActive,
     });
 
     return plainToInstance(LoginResponse, {
@@ -95,15 +96,16 @@ export class AuthService {
 
   /**
    * Generates a JSON Web Token access token for the specified user.
-   * @param user {id: string, email:string} - The user to generate the token for.
+   * @param user {id: string, email: string, isActive: boolean} - The user to generate the token for.
    * @returns A `Promise` that resolves to the generated access token.
    */
-  async generateAccessToken(user: Pick<User, 'id' | 'email'>) {
+  async generateAccessToken(user: Pick<User, 'id' | 'email' | 'isActive'>) {
     const secret = this.configService.get<string>('jwt.secret');
 
     const payload = {
       sub: user.id,
       email: user.email,
+      isActive: user.isActive,
     };
 
     return await this.jwtService.signAsync(payload, {
