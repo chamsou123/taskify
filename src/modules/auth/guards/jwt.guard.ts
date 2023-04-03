@@ -5,6 +5,7 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { GqlExecutionContext } from '@nestjs/graphql';
+import { USER_NOT_ACTIVE } from '../../../errors';
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {
@@ -20,7 +21,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     const { isActive } = gqlReq.user;
 
     if (!isActive) {
-      throw new UnauthorizedException('User account is inactive');
+      throw new UnauthorizedException(USER_NOT_ACTIVE);
     }
 
     return true;
