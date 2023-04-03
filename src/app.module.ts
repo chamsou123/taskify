@@ -6,7 +6,7 @@ import { CommonModule } from './modules/common/common.module';
 import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { TodoModule } from './modules/todo/todo.module';
-import {CategoryModule} from "./modules/category/category.module";
+import { CategoryModule } from './modules/category/category.module';
 
 @Module({
   imports: [
