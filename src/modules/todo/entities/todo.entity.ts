@@ -37,7 +37,7 @@ export class Todo extends BaseEntity implements SoftDeletable {
   @Index()
   category: Category;
 
-  @Field(() => TodoStatusEnum)
+  @Field(() => TodoPriorityEnum)
   @Column({
     type: 'enum',
     enum: TodoPriorityEnum,
