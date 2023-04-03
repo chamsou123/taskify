@@ -50,7 +50,7 @@ export class Todo extends BaseEntity implements SoftDeletable {
   @Column({
     type: 'enum',
     enum: TodoStatusEnum,
-    default: TodoStatusEnum.NOTSTARTED,
+    default: TodoStatusEnum.INPROGRESS,
   })
   @Index()
   status: TodoStatusEnum;

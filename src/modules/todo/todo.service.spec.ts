@@ -61,7 +61,7 @@ describe('TodoService', () => {
         user: { id: createTodoDto.user } as User,
         category: { id: createTodoDto.category } as Category,
         priority: createTodoDto.priority,
-        status: TodoStatusEnum.NOTSTARTED,
+        status: TodoStatusEnum.INPROGRESS,
         dueDate: createTodoDto.dueDate,
         deletedAt: null,
       };
@@ -130,7 +130,7 @@ describe('TodoService', () => {
         user: { id: 1 } as User,
         category: { id: 1 } as Category,
         priority: TodoPriorityEnum.HIGH,
-        status: TodoStatusEnum.NOTSTARTED,
+        status: TodoStatusEnum.INPROGRESS,
         dueDate: new Date('2023-04-03'),
         deletedAt: null,
       };
