@@ -1,4 +1,5 @@
 import { Field, InputType, OmitType, PartialType } from '@nestjs/graphql';
+import { IsNumber } from 'class-validator';
 
 import { CreateUserDto } from './create-user.dto';
 
@@ -6,6 +7,7 @@ import { CreateUserDto } from './create-user.dto';
 export class UpdateUserDto extends PartialType(
   OmitType(CreateUserDto, ['email', 'isActive', 'password']),
 ) {
-  @Field(() => Number, { nullable: true })
-  id?: number;
+  @Field(() => Number)
+  @IsNumber()
+  id: number;
 }
