@@ -7,6 +7,7 @@ import {
   IsString,
 } from 'class-validator';
 
+import { IsFutureDate } from '../../common/validators';
 import { TodoPriorityEnum } from '../enums';
 
 @InputType()
@@ -34,5 +35,6 @@ export class CreateTodoDto {
 
   @Field(() => Date)
   @IsDate()
+  @IsFutureDate()
   dueDate: Date;
 }
