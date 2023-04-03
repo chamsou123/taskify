@@ -13,10 +13,20 @@ export class CategoryService {
     private categoryRepository: Repository<Category>,
   ) {}
 
+  /**
+   * Creates a new category.
+   * @param createCategoryInput {CreateCategoryDto} - The data to create a category.
+   * @returns The created category.
+   */
   async create(createCategoryInput: CreateCategoryDto): Promise<Category> {
     return this.categoryRepository.save(createCategoryInput);
   }
 
+  /**
+   * Retrieves a list of categories based on a filter.
+   * @param filterCategoryInput {FilterCategoryDto} - The filter to apply to the query.
+   * @returns A list of categories matching the filter.
+   */
   async categories(
     filterCategoryInput?: FilterCategoryDto,
   ): Promise<Category[]> {
@@ -25,6 +35,12 @@ export class CategoryService {
     });
   }
 
+  /**
+   * Retrieves a category by its ID.
+   * @param id {number} - The ID of the category to retrieve.
+   * @returns The category matching the ID.
+   * @throws NotFoundException if no category is found.
+   */
   async category(id: number): Promise<Category> {
     const category = await this.categoryRepository.findOneBy({
       id,
@@ -37,6 +53,13 @@ export class CategoryService {
     return category;
   }
 
+  /**
+   * Updates a category by its ID.
+   * @param id {number} - The ID of the category to update.
+   * @param updateCategoryInput {UpdateCategoryDto} - The data to update the category.
+   * @returns The updated category.
+   * @throws NotFoundException if no category is found.
+   */
   async update(
     id: number,
     updateCategoryInput: UpdateCategoryDto,
@@ -45,7 +68,13 @@ export class CategoryService {
     return this.category(id);
   }
 
+  /**
+   * Deletes a category by its ID.
+   * @param id {number} - The ID of the category to delete.
+   * @throws NotFoundException if no category is found.
+   */
   async delete(id: number): Promise<void> {
-    await this.categoryRepository.softDelete(id);
+    const category = await this.category(id);
+    await this.categoryRepository.softDelete(category.id);
   }
 }
